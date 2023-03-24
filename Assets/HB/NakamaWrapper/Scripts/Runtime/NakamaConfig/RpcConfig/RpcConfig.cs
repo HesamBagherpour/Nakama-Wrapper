@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace HB.NakamaWrapper.Scripts.Editor.NakamaConfig.RpcConfig
+namespace HB.NakamaWrapper.Scripts.Runtime.NakamaConfig.RpcConfig
 {
-    [CreateAssetMenu( menuName = "Infinite8/Nakama/Create New RPC Config" , fileName = "RPC config")]
+    [CreateAssetMenu( menuName = "HB/Nakama/Create New RPC Config" , fileName = "RPC config")]
     public class RpcConfig : ScriptableObject
     {
 

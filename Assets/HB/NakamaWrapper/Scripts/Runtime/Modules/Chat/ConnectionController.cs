@@ -1,9 +1,4 @@
-﻿using System;
-using Infinite8.NakamaWrapper.Scripts.Runtime.Manager;
-using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
-using Nakama;
-
-namespace HB.NakamaWrapper.Scripts.Runtime.Modules.Chat
+﻿namespace HB.NakamaWrapper.Scripts.Runtime.Modules.Chat
 {
     // public class ConnectionController:I8SocketConnection
     // {

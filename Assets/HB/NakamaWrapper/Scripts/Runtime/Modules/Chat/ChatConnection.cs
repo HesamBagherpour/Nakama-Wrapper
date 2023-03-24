@@ -1,17 +1,14 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Infinite8.NakamaWrapper.Scripts.Runtime.Component;
-using Infinite8.NakamaWrapper.Scripts.Runtime.Controller;
-using Infinite8.NakamaWrapper.Scripts.Runtime.Manager;
-using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
-using Infinite8.NakamaWrapper.Scripts.Runtime.NakamaConfig.ClientConfig;
-using Infinite8.NakamaWrapper.Scripts.Runtime.NakamaConfig.SessionConfig;
+using HB.NakamaWrapper.Scripts.Runtime.Component;
+using HB.NakamaWrapper.Scripts.Runtime.Controller;
+using HB.NakamaWrapper.Scripts.Runtime.Manager;
+using HB.NakamaWrapper.Scripts.Runtime.Models;
+using HB.NakamaWrapper.Scripts.Runtime.NakamaConfig.ClientConfig;
 using Nakama;
-using Nakama.TinyJson;
 using Newtonsoft.Json;
 using UnityEngine;
-using JsonSerializer = Palmmedia.ReportGenerator.Core.Common.JsonSerializer;
 
 namespace HB.NakamaWrapper.Scripts.Runtime.Modules.Chat
 {

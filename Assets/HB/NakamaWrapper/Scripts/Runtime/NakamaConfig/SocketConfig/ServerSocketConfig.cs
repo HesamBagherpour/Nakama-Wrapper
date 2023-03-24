@@ -1,7 +1,8 @@
-﻿namespace HB.NakamaWrapper.Scripts.Editor.NakamaConfig.SocketConfig
+﻿using UnityEngine;
+
+namespace HB.NakamaWrapper.Scripts.Runtime.NakamaConfig.SocketConfig
 {
-    using UnityEngine;
-    [CreateAssetMenu( menuName = "Infinite8/Nakama/Create New Socket Config" , fileName = "Socket config")]
+    [CreateAssetMenu( menuName = "HB/Nakama/Create New Socket Config" , fileName = "Socket config")]
     public class ServerSocketConfigs : ScriptableObject
     {
         public bool appearOnline;

@@ -3,14 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using HB.NakamaWrapper.Scripts.Runtime.Models;
-using HB.NakamaWrapper.Scripts.Runtime.Modules.Chat;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 using Nakama;
 using Nakama.TinyJson;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace HB.NakamaWrapper.Scripts.Runtime.Utilities
+namespace Infinite8.NakamaWrapper.Scripts.Runtime.Utilities
 {
     public static class NakamaRpc
     {

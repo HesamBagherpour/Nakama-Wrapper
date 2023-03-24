@@ -2,8 +2,8 @@ using System;
 using Cysharp.Threading.Tasks;
 using HB.NakamaWrapper.Scripts.Runtime.Core;
 using HB.NakamaWrapper.Scripts.Runtime.Models;
-using HB.NakamaWrapper.Scripts.Runtime.Modules.Chat;
-using HB.NakamaWrapper.Scripts.Runtime.Utilities;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Utilities;
 using Nakama;
 using Newtonsoft.Json;
 
@@ -11,7 +11,7 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Controller
 {
     public class MatchFactory
     {
-        public async UniTask<Tuple<bool, GeneralResModel<MatchData>>> CreateMatch(string tag,I8Client client, I8Session session ,RpcConfig rpcConfig) 
+        public async UniTask<Tuple<bool, GeneralResModel<MatchData>>> CreateMatch(string tag,HClient client, HSession session ,RpcConfig rpcConfig) 
         {
             MatchLabelFilter roomTokenPayload = new MatchLabelFilter {RoomToken = rpcConfig.roomToken};
             var matchRes = await NakamaRpc.SendRpc<string>(client.client, session.Session, rpcConfig.rpcName, rpcConfig.timeOutSec,

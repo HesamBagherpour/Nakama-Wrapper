@@ -2,7 +2,7 @@
 using System.Text;
 using Nakama.TinyJson;
 
-namespace HB.NakamaWrapper.Scripts.Runtime.Utilities
+namespace Infinite8.NakamaWrapper.Scripts.Runtime.Utilities
 {
     public static class GetState
     {
