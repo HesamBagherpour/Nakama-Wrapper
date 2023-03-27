@@ -1,10 +1,20 @@
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace HB.NakamaWrapper.Scripts.Runtime.Models
 {
     public class OpCodeServerModel
     {
-        [DataMember(Name = "opCode")] public long OpCode;
-        [DataMember(Name = "key")] public string Key;
+        [JsonProperty( "opCode")] public long OpCode;
+        [JsonProperty( "key")] public string Key;
+
+        public OpCodeServerModel()
+        {
+        }
+
+        public OpCodeServerModel(long opCode, string key)
+        {
+            OpCode = opCode;
+            Key = key;
+        }
     }
 }

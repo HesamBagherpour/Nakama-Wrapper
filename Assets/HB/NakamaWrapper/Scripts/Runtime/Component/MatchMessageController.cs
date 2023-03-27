@@ -45,16 +45,20 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Component
             var state = matchState.State.Length > 0 ? System.Text.Encoding.UTF8.GetString(matchState.State) : null;
             switch (matchState.OpCode)
             {
-                case 0:
+                    case 0:
+                    Debug.Log("other player Joined");
+                    Debug.Log("state : " + state);
+                    var playr = JsonConvert.DeserializeObject<GameStateModel>(state);
+                    Debug.Log("state : " + playr.Players[0].Presence.SessionId);
                     OnJoinPlayer?.Invoke();
                     break;
-                case  200 : 
-                    var packet = JsonConvert.DeserializeObject<MultiPlayerMessage<MoveStateModelNew>>(Encoding.UTF8.GetString(matchState.State));
-                    if (packet != null) Debug.Log("stateDictionary   :  " + packet.message.pos);
+                    case 1:
+                    Debug.Log("other player Joined");
+                    var myObject = JsonUtility.FromJson<PlayerModel>(state);
+                   
+                    OnJoinPlayer?.Invoke();
+                    Debug.unityLogger.Log("PlayerJoint came" + myObject);
                     break;
-                    
-             
-                
 
             }
             
