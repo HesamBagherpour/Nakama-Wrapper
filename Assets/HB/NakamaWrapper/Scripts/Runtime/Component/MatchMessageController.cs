@@ -23,7 +23,7 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Component
         private List<OpCodeCompModel> opCodes;
         protected internal long lastReceivedGameState;
         protected internal IMatchState currentMatchState;
-        public Action<bool,bool> OnJoinPlayer;
+        public Action<bool,bool,string> OnJoinPlayer;
         public Action<MoveStateModelNew,string> OnPlayerPosition;
 
         private long _localPlayerAdd = 0;
@@ -55,19 +55,19 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Component
                         if (player.Presence.UserId == _userId)
                         {
                             Debug.Log("this is Me ");
-                            OnJoinPlayer?.Invoke(true,false);
+                            OnJoinPlayer?.Invoke(true,false,player.Presence.UserId);
                         }
                         else
                         {
                             Debug.Log(" this is Other Player ");
-                            OnJoinPlayer?.Invoke(false,false);
+                            OnJoinPlayer?.Invoke(false,false,player.Presence.UserId);
                         }
                     }
                     break;
                     case 1: 
                         Debug.Log("other player Joined");
-                        OnJoinPlayer?.Invoke(false,true);
                         PlayerModel otherPlayers = JsonConvert.DeserializeObject<PlayerModel>(state);
+                        OnJoinPlayer?.Invoke(false,true,otherPlayers.Presence.UserId);
                         break;
                     case 200:
                         

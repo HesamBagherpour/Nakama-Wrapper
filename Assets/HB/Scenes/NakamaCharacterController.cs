@@ -11,7 +11,7 @@ namespace HB.Scenes
     {
         private CharacterController _controller;
         [SerializeField]private ChatConnection chatConnection;
-
+        public string playerUUID;
         private MatchMessageController _matchMessageController;
         private float playerSpeed = 2.0f;
         public Vector3 oldPos;
@@ -33,6 +33,10 @@ namespace HB.Scenes
         {
             if (NakamaManager.Instance.userId == uuid)
                 return;
+            if (playerUUID == uuid)
+            {
+                Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            }
        
         }
 

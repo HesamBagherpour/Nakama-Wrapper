@@ -23,7 +23,7 @@ public class NakamaMultiPlayerController : MonoBehaviour
     }
 
 
-    private void OnJoinPlayer(bool isLocalPlayer , bool isPlayerJustJoin)
+    private void OnJoinPlayer(bool isLocalPlayer , bool isPlayerJustJoin,string userId)
     {
 
 
@@ -32,6 +32,7 @@ public class NakamaMultiPlayerController : MonoBehaviour
             var myAvatar =  Instantiate(this.myAvatar, NakamaManager.Instance.localPlayer.transform, true);
             var playerRenderer = myAvatar.GetComponent<Renderer>();
             var playerConttroller = myAvatar.GetComponent<NakamaCharacterController>();
+            playerConttroller.playerUUID = userId;
             playerConttroller.isLocalPlayer = true;
             playerRenderer.material.SetColor("_Color", Color.green);
         }
@@ -43,6 +44,7 @@ public class NakamaMultiPlayerController : MonoBehaviour
                 var playerRenderer = myAvatar.GetComponent<Renderer>();
                 playerRenderer.material.SetColor("_Color", Color.yellow);
                 var playerConttroller = myAvatar.GetComponent<NakamaCharacterController>();
+                playerConttroller.playerUUID = userId;
                 playerConttroller.isLocalPlayer = false;
             }
             else
@@ -51,6 +53,7 @@ public class NakamaMultiPlayerController : MonoBehaviour
                 var playerRenderer = myAvatar.GetComponent<Renderer>();
                 playerRenderer.material.SetColor("_Color", Color.red);
                 var playerConttroller = myAvatar.GetComponent<NakamaCharacterController>();
+                playerConttroller.playerUUID = userId;
                 playerConttroller.isLocalPlayer = false;
             }
         }
