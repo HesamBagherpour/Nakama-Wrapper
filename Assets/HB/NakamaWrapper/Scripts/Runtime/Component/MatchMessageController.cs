@@ -24,6 +24,7 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Component
         protected internal long lastReceivedGameState;
         protected internal IMatchState currentMatchState;
         public Action<bool,bool> OnJoinPlayer;
+        public Action<MoveStateModelNew,string> OnPlayerPosition;
 
         private long _localPlayerAdd = 0;
         
@@ -69,8 +70,11 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Component
                         PlayerModel otherPlayers = JsonConvert.DeserializeObject<PlayerModel>(state);
                         break;
                     case 200:
+                        
                         var packet = JsonConvert.DeserializeObject<MultiPlayerMessage<MoveStateModelNew>>(Encoding.UTF8.GetString(matchState.State));
-                        if (packet != null) Debug.Log("stateDictionary   :  " + packet.message.pos);
+                        if (packet != null) Debug.Log("stateDictionary   :  " + packet.message.pos + "aaaaaaaa"  + packet.uuid);
+                        if (packet != null) OnPlayerPosition?.Invoke(packet.message , matchState.UserPresence.UserId);
+
                         break;
 
             }
