@@ -23,7 +23,7 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Component
         private List<OpCodeCompModel> opCodes;
         protected internal long lastReceivedGameState;
         protected internal IMatchState currentMatchState;
-        public Action OnJoinPlayer;
+        public Action<bool,bool> OnJoinPlayer;
 
         private long _localPlayerAdd = 0;
         
@@ -48,16 +48,32 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Component
                     case 0:
                     Debug.Log("other player Joined");
                     Debug.Log("state : " + state);
-                    var playr = JsonConvert.DeserializeObject<GameStateModel>(state);
-                    Debug.Log("state : " + playr.Players[0].Presence.SessionId);
-                    OnJoinPlayer?.Invoke();
+                    GameStateModel playrs = JsonConvert.DeserializeObject<GameStateModel>(state);
+                    foreach (var player in playrs.Players)
+                    {
+                        if (player.Presence.UserId == _userId)
+                        {
+                            Debug.Log("this is Me ");
+                            OnJoinPlayer?.Invoke(true,false);
+                        }
+                        else
+                        {
+                            Debug.Log(" this is Other Player ");
+                            OnJoinPlayer?.Invoke(false,false);
+                        }
+                    }
+ 
+                    
                     break;
-                    case 1:
-                    Debug.Log("other player Joined");
-                    var myObject = JsonUtility.FromJson<PlayerModel>(state);
-                   
-                    OnJoinPlayer?.Invoke();
-                    Debug.unityLogger.Log("PlayerJoint came" + myObject);
+                    case 1: 
+                        Debug.Log("other player Joined");
+                        OnJoinPlayer?.Invoke(false,true);
+                        PlayerModel otherPlayers = JsonConvert.DeserializeObject<PlayerModel>(state);
+
+        
+                        
+
+                        
                     break;
 
             }

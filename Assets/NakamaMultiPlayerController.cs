@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using HB.NakamaWrapper.Scripts.Runtime.Component;
 using HB.NakamaWrapper.Scripts.Runtime.Manager;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NakamaMultiPlayerController : MonoBehaviour
@@ -21,7 +22,7 @@ public class NakamaMultiPlayerController : MonoBehaviour
     }
 
 
-    private void OnJoinPlayer()
+    private void OnJoinPlayer(bool isLocalPlayer , bool isPlayerJustJoin)
     {
 
        var myAvatar =  Instantiate(avatar, NakamaManager.Instance.localPlayer.transform, true);
