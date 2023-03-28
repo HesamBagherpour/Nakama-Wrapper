@@ -62,19 +62,16 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Component
                             OnJoinPlayer?.Invoke(false,false);
                         }
                     }
- 
-                    
                     break;
                     case 1: 
                         Debug.Log("other player Joined");
                         OnJoinPlayer?.Invoke(false,true);
                         PlayerModel otherPlayers = JsonConvert.DeserializeObject<PlayerModel>(state);
-
-        
-                        
-
-                        
-                    break;
+                        break;
+                    case 200:
+                        var packet = JsonConvert.DeserializeObject<MultiPlayerMessage<MoveStateModelNew>>(Encoding.UTF8.GetString(matchState.State));
+                        if (packet != null) Debug.Log("stateDictionary   :  " + packet.message.pos);
+                        break;
 
             }
             

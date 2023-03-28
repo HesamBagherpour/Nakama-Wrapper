@@ -600,4 +600,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   matchMessageController: {fileID: 293180397}
-  avatar: {fileID: 8016542329276982990, guid: 0295fc0a41ac23644bdc838aa8708cdd, type: 3}
+  myAvatar: {fileID: 8016542329276982990, guid: 0295fc0a41ac23644bdc838aa8708cdd, type: 3}

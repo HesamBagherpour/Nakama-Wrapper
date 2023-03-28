@@ -34,7 +34,6 @@ namespace HB.Scenes
                     var transform1 = transform;
                     var position = transform1.position;
                     chatConnection.SendMatchState(position);
-            
                     oldPos = transform.position;
                 }
                 
