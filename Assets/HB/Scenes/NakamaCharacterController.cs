@@ -1,4 +1,5 @@
-using HB.NakamaWrapper.Scripts.Runtime.Component;
+
+using HB.NakamaWrapper.Scripts.Runtime.Controllers.Match;
 using HB.NakamaWrapper.Scripts.Runtime.Models;
 using HB.NakamaWrapper.Scripts.Runtime.Modules.Chat;
 using Nakama.Snippets;
@@ -25,20 +26,20 @@ namespace HB.Scenes
             {
                 chatConnection = FindObjectOfType<ChatConnection>(true);
             }
-            _matchMessageController.OnPlayerPosition +=OnPlayerPosition;
+           // _matchMessageController.OnPlayerPosition +=OnPlayerPosition;
             
         }
 
-        private void OnPlayerPosition(MoveStateModelNew obj,string uuid)
-        {
-            if (NakamaManager.Instance.userId == uuid)
-                return;
-            if (playerUUID == uuid)
-            {
-                Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-            }
-       
-        }
+        // private void OnPlayerPosition(MoveStateModelNew obj,string uuid)
+        // {
+        //     if (NakamaManager.Instance.userId == uuid)
+        //         return;
+        //     if (playerUUID == uuid)
+        //     {
+        //         Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        //     }
+        //
+        // }
 
         private void Update()
         {

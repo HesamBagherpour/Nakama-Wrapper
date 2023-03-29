@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using HB.NakamaWrapper.Scripts.Runtime.Component;
+using HB.NakamaWrapper.Scripts.Runtime.Controllers.Match;
 using HB.NakamaWrapper.Scripts.Runtime.Manager;
 using HB.Scenes;
 using Unity.VisualScripting;
@@ -12,15 +9,15 @@ public class NakamaMultiPlayerController : MonoBehaviour
     // Start is called before the first frame update
     public MatchMessageController matchMessageController;
     public GameObject myAvatar;
-    void Awake()
-    {
-        matchMessageController.OnJoinPlayer +=OnJoinPlayer;
-    }
-
-    private void OnDestroy()
-    {
-        matchMessageController.OnJoinPlayer -=OnJoinPlayer;
-    }
+    // void Awake()
+    // {
+    //     matchMessageController.OnJoinPlayer +=OnJoinPlayer;
+    // }
+    //
+    // private void OnDestroy()
+    // {
+    //     matchMessageController.OnJoinPlayer -=OnJoinPlayer;
+    // }
 
 
     private void OnJoinPlayer(bool isLocalPlayer , bool isPlayerJustJoin,string userId)
