@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using HB.NakamaWrapper.Scripts.Runtime.Core;
 using HB.NakamaWrapper.Scripts.Runtime.Models;
 using HB.NakamaWrapper.Scripts.Runtime.Utilities;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 using Nakama;
 using Newtonsoft.Json;
 

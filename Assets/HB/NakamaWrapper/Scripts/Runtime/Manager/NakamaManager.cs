@@ -1,4 +1,6 @@
-﻿using HB.NakamaWrapper.Scripts.Runtime.Factory;
+﻿using System;
+using HB.NakamaWrapper.Scripts.Runtime.Controllers.Match;
+using HB.NakamaWrapper.Scripts.Runtime.Factory;
 using UnityEngine;
 
 namespace HB.NakamaWrapper.Scripts.Runtime.Manager
@@ -9,6 +11,8 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Manager
         public static NakamaManager Instance;
         public GameObject localPlayer;
         public GameObject remotePlayer;
+        public Action<string> OnSessionConnected;
+        public Action<string,MatchConnectionController> OnMatchConnected;
         private void Awake()
         {
             Instance = this;

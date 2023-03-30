@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using HB.NakamaWrapper.Scripts.Runtime.Core;
 using HB.NakamaWrapper.Scripts.Runtime.Models;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 using Nakama;
 using UnityEngine;
 
@@ -14,62 +15,56 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Controllers.Match
         private I8Socket _socket;
         private string _matchId;
         private Action<long, string, string, IMatchState> _onReceiveOpCodeMessage;
-        private List<OpCodeCompModel> opCodes;
-        protected internal long lastReceivedGameState;
-        protected internal IMatchState currentMatchState;
+        private List<OpCodeCompModel> _opCodes;
+        private  long _lastReceivedGameState;
+        private  IMatchState _currentMatchState;
         public Action OnJoinPlayer;
-
-        private long _localPlayerAdd = 0;
-        public MatchOpCodeController matchOpCodeController;
+        [SerializeField] private long localPlayerAdd = 0;
+        public MatchOpCodeController MatchOpCodeController;
         public void Init(I8Socket socket ,MatchOpCodeController matchOpCodeController ,string matchId)
         {
-            opCodes = new List<OpCodeCompModel>();
+            _opCodes = new List<OpCodeCompModel>();
             _socket = socket;
             _matchId = matchId;
-            this.matchOpCodeController = matchOpCodeController;
+            MatchOpCodeController = matchOpCodeController;
             _socket.socket.ReceivedMatchState += SocketOnReceivedMatchState;
         }
-
         private void SocketOnReceivedMatchState(IMatchState matchState)
         {
-            
             if(matchState.MatchId != _matchId)
                 return;
+            _lastReceivedGameState = DateTimeOffset.Now.ToUnixTimeSeconds();
+            _currentMatchState = matchState;
             
-            lastReceivedGameState = DateTimeOffset.Now.ToUnixTimeSeconds();
-            currentMatchState = matchState;
-            
-            if (matchOpCodeController.opCodeCallbacks.ContainsKey(matchState.OpCode))
+            if (MatchOpCodeController.opCodeCallbacks.ContainsKey(matchState.OpCode))
             {
-                matchOpCodeController.opCodeCallbacks[matchState.OpCode].Invoke(matchState.OpCode,
-                    matchOpCodeController.opCodeKeyByValue.ContainsKey(matchState.OpCode)
-                        ? matchOpCodeController.opCodeKeyByValue[matchState.OpCode]
+                MatchOpCodeController.opCodeCallbacks[matchState.OpCode].Invoke(matchState.OpCode,
+                    MatchOpCodeController.opCodeKeyByValue.ContainsKey(matchState.OpCode)
+                        ? MatchOpCodeController.opCodeKeyByValue[matchState.OpCode]
                         : null,
                     matchState);
             }
-     
         }
-
-
         public void SetMatchId(string matchId)
         {
             _matchId = matchId;
         }
-        
         #region SendMatchState
         
         protected internal async UniTask SendMatchState(long opCode, string state,
             IEnumerable<IUserPresence> presences = null)
         {
-            // if (!MultiPlayerManager.Instance.isConnected)
-            //     return;
+            
+            if(!_socket.socket.IsConnected)
+                return;
+
             try
             {
                 await _socket.socket.SendMatchStateAsync(_matchId, opCode, state, presences);
             }
             catch (Exception e)
             {
-                Debug.unityLogger.Log("__________________" + e);
+                Debug.unityLogger.Log("SendMatchState  error : " + e);
                 throw;
             }
         }
@@ -77,15 +72,16 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Controllers.Match
         protected internal async UniTask SendMatchState(long opCode, ArraySegment<byte> state,
             IEnumerable<IUserPresence> presences = null)
         {
-            // if (!MultiPlayerManager.Instance.isConnected)
-            //     return;
+
+            if(!_socket.socket.IsConnected)
+                return;
             try
             {
                 await _socket.socket.SendMatchStateAsync(_matchId, opCode, state, presences);
             }
             catch (Exception e)
             {
-                Debug.unityLogger.Log("__________________" + e);
+                Debug.unityLogger.Log("SendMatchState  error :  " + e);
                 throw;
             }
         }
@@ -93,25 +89,21 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Controllers.Match
         protected internal async UniTask SendMatchState(long opCode, byte[] state,
             IEnumerable<IUserPresence> presences = null)
         {
-            // if (!MultiPlayerManager.Instance.isConnected)
-            //     return;
+            if(!_socket.socket.IsConnected)
+                return;
             try
             {
                 await _socket.socket.SendMatchStateAsync(_matchId, opCode, state, presences);
             }
             catch (Exception e)
             {
-                Debug.unityLogger.Log("__________________" + e);
+                Debug.unityLogger.Log("SendMatchState  error : " + e);
                 throw;
             }
         }
         
         
         #endregion
-        
-
-
-        
         
     }
 }

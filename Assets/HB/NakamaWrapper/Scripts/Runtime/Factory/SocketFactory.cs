@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using HB.NakamaWrapper.Scripts.Runtime.Core;
 using HB.NakamaWrapper.Scripts.Runtime.Models;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 
 namespace HB.NakamaWrapper.Scripts.Runtime.Factory
 {

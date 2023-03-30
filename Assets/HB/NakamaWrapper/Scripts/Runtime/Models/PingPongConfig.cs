@@ -1,4 +1,6 @@
-﻿namespace HB.NakamaWrapper.Scripts.Runtime.Models
+﻿using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
+
+namespace HB.NakamaWrapper.Scripts.Runtime.Models
 {
     public class PingPongConfig
     {

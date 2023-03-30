@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using HB.NakamaWrapper.Scripts.Runtime.Core;
 using HB.NakamaWrapper.Scripts.Runtime.Models;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 
 namespace HB.NakamaWrapper.Scripts.Runtime.Factory
 {
     public class SessionFactory
     {
         private List<I8Session> _sessions;
+        public Action<I8Session> OnCreateSession;
         public async UniTask<Tuple<bool, I8Session>> CreateSession<T>(string tag,I8Client client ,T config) where T : SessionConfig
         {
             //TODO check if not exist tag or name - return error if exist

@@ -1,7 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-namespace HB.NakamaWrapper.Scripts.Runtime.Models
+// ReSharper disable once CheckNamespace
+namespace Infinite8.NakamaWrapper.Scripts.Runtime.Models
 {
     [Serializable]
     public class MoveStateModelNew

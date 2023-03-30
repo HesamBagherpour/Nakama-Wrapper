@@ -15,7 +15,6 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Models
             this.maxRetries = maxRetries;
             this.baseDelayMs = baseDelayMs;
         }
-
         public RpcConfig()
         {
             this.roomToken = "generalRoomToken";
@@ -25,7 +24,6 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Models
             this.maxRetries = 3;      
             this.baseDelayMs = 100;    
         }
-
         public string roomToken;
         public MatchLabelFilter RoomTokenPayload;
         public string rpcName;

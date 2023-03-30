@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using HB.NakamaWrapper.Scripts.Runtime.Models;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 using Nakama;
 
 namespace HB.NakamaWrapper.Scripts.Runtime.Core

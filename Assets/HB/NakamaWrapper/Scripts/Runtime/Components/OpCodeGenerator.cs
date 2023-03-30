@@ -3,43 +3,64 @@ using System.Collections.Generic;
 using System.Text;
 using Cysharp.Threading.Tasks;
 using HB.NakamaWrapper.Scripts.Runtime.Controllers.Match;
+using HB.NakamaWrapper.Scripts.Runtime.Manager;
 using HB.NakamaWrapper.Scripts.Runtime.Models;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 using Nakama;
 using Nakama.TinyJson;
 using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace HB.NakamaWrapper.Scripts.Runtime.Components
 {
-    public class OpCodeGenerator : MonoBehaviour
+    public sealed class OpCodeGenerator : MonoBehaviour
     {
         
-        //client Tag
-        //session Tag
-        //socket Tag
-        //match Tag
-        //match id
 
-         public List<OpCodeCompModel> opCodes = new List<OpCodeCompModel>();
-        public bool initOnStart;
+        public ISession Session;
+        public IClient Client;
+        public ISocket Socket;
+        public string matchId;
+        public string matchTagName;
+        public string sessionTagName;
+        public List<OpCodeCompModel> opCodes = new List<OpCodeCompModel>();
         public bool isInitNetworkEvents;
         public string userName;
-        // key: opCodeKey , value: uuid
         public Dictionary<string, string> opCodeUuidServerConfig;
         public Action<long, string, string, IMatchState> OnReceiveOpCodeMessage;
-        // public Dictionary<long, string, IMatchState> OnReceiveOpCodeMessage;
-
-        private MatchConnectionController _matchConnectionController;
-        private MatchOpCodeController _matchOpCodeController;
         
-        protected internal virtual void Start()
+        public MatchConnectionController _matchConnectionController;
+        public MatchOpCodeController _matchOpCodeController;
+
+        public Action Onconnected;
+
+
+        
+        private void Start()
         {
-            //TODO by tag
-            // if (initOnStart)
-                // Init();
+            NakamaManager.Instance.OnSessionConnected += delegate(string sessionName)
+            {
+                Debug.Log("static session Name : " + sessionName);
+                Debug.Log("current session Name : " + sessionName);
+            };
+            
+            
+            NakamaManager.Instance.OnMatchConnected += delegate(string matchName,MatchConnectionController matchConnectionController)
+            {
+                Debug.Log("static match Name : " + matchName);
+                Debug.Log(" current match Name : " + matchName);
+                
+                
+                this._matchConnectionController = matchConnectionController;
+                Init(_matchConnectionController,_matchConnectionController.matchMessageController.MatchOpCodeController);
+                // 
+            };
         }
 
-        public virtual void Init(MatchConnectionController matchConnectionController , MatchOpCodeController matchOpCodeController)
+
+        #region Init
+        public void Init(MatchConnectionController matchConnectionController , MatchOpCodeController matchOpCodeController)
         {
             _matchConnectionController = matchConnectionController;
             _matchOpCodeController = matchOpCodeController;
@@ -48,76 +69,116 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Components
             if (_matchConnectionController.isConnected)
             {
                 Debug.unityLogger.Log("MultiPlayerNetworkSync | Init | isConnected call onConnect");
-                onConnect();
+                ONConnect();
             }
             else
             {
                 Debug.unityLogger.Log("MultiPlayerNetworkSync | Init | not connected register OnConnect");
                 //TODO
-                // MultiPlayerManager.Instance.OnConnect += onConnect;
+                _matchConnectionController.OnMatchConnect += OnMatchConnect;
             }
         }
-        public virtual void Init(MatchConnectionController matchConnectionController , MatchOpCodeController matchOpCodeController,Dictionary<string, string> opCodeUuidServerConfig)
+        private void Init(MatchConnectionController matchConnectionController , MatchOpCodeController matchOpCodeController,Dictionary<string, string> opCodeUuidServerConfig)
         {
             this.opCodeUuidServerConfig = opCodeUuidServerConfig;
             Init(matchConnectionController ,matchOpCodeController);
         }
-        public virtual void Init(MatchConnectionController matchConnectionController , MatchOpCodeController matchOpCodeController,string userName)
+        private void Init(MatchConnectionController matchConnectionController , MatchOpCodeController matchOpCodeController,string userName)
         {
             this.userName = userName;
             Init(matchConnectionController ,matchOpCodeController);
         }
 
-
-        public async UniTask SendGameState(long opCode, string state, IEnumerable<IUserPresence> presences = null)
+        private void OnMatchConnect(string matchId, string matchTag)
+        {
+            this.matchId = matchId;
+            matchTagName = matchTag;
+            ONConnect();
+        }
+        
+        #endregion
+        #region sendMatchState
+        public async UniTask SendMatchState(long opCode, string state, IEnumerable<IUserPresence> presences = null)
         {
             if (!isInitNetworkEvents)
                 await UniTask.WaitUntil(() => isInitNetworkEvents);
-            await _matchOpCodeController._matchMessageController.SendMatchState(opCode, state, presences = null);
+            await _matchOpCodeController.matchMessageController.SendMatchState(opCode, state, presences = null);
         }
-
-        public async UniTask SendGameState(long opCode, ArraySegment<byte> state, IEnumerable<IUserPresence> presences = null)
+        public async UniTask SendMatchState(long opCode, ArraySegment<byte> state, IEnumerable<IUserPresence> presences = null)
         {
             if (!isInitNetworkEvents)
                 await UniTask.WaitUntil(() => isInitNetworkEvents);
-            await _matchOpCodeController._matchMessageController.SendMatchState(opCode, state, presences);
+            await _matchOpCodeController.matchMessageController.SendMatchState(opCode, state, presences);
         }
-
-        public async UniTask SendGameState(long opCode, byte[] state, IEnumerable<IUserPresence> presences = null)
+        public async UniTask SendMatchState(long opCode, byte[] state, IEnumerable<IUserPresence> presences = null)
         {
             if (!isInitNetworkEvents)
                 await UniTask.WaitUntil(() => isInitNetworkEvents);
-            await _matchOpCodeController._matchMessageController.SendMatchState(opCode, state, presences);
+            await _matchOpCodeController.matchMessageController.SendMatchState(opCode, state, presences);
         }
+        #endregion
+        #region ReeeiveMessage
 
+        private void ONReceiveOpCodeMessage(long opCode, string key, IMatchState state) {
+                var a = Encoding.UTF8.GetString(state.State).FromJson<MultiPlayerMessage<object>>();
+                if (opCodes.Exists(model => model.Uuid == a.uuid))
+                    OnReceiveOpCodeMessage?.Invoke(opCode, key, a.uuid, state);
+        }
+        
+        #endregion
+        #region Connect
 
-        protected internal async void onConnect()
-        {
-            Debug.unityLogger.Log("MultiPlayerNetworkSync | onConnect | start");
-            foreach (OpCodeCompModel opCode in opCodes)
+            private async void ONConnect()
             {
-                Debug.unityLogger.Log($"MultiPlayerNetworkSync | onConnect | await register {opCode.Key} ");
-                initOpCodeUuid(opCode);
-                opCode.OpCode =
-                    await _matchOpCodeController.RegisterOpCode(opCode.Key,
-                        onReceiveOpCodeMessage);
-                Debug.unityLogger.Log($"MultiPlayerNetworkSync | onConnect | after register {opCode.Key} {opCode.OpCode} ");
+                Debug.unityLogger.Log("MultiPlayerNetworkSync | onConnect | start");
+                foreach (OpCodeCompModel opCode in opCodes)
+                {
+                    Debug.unityLogger.Log($"MultiPlayerNetworkSync | onConnect | await register {opCode.Key} ");
+                    //InitOpCodeUuid(opCode);
+                    opCode.OpCode =
+                        await _matchOpCodeController.RegisterOpCode(opCode.Key,
+                            ONReceiveOpCodeMessage);
+                    Debug.unityLogger.Log($"MultiPlayerNetworkSync | onConnect | after register {opCode.Key} {opCode.OpCode} ");
+                }
+
+                isInitNetworkEvents = true;
+                Debug.unityLogger.Log($"MultiPlayerNetworkSync | onConnect | end isInitNetworkEvents {isInitNetworkEvents} ");
+                Onconnected.Invoke();
             }
 
-            isInitNetworkEvents = true;
-            Debug.unityLogger.Log($"MultiPlayerNetworkSync | onConnect | end isInitNetworkEvents {isInitNetworkEvents} ");
-        }
-        protected internal virtual void onReceiveOpCodeMessage(long opCode, string key, IMatchState state)
-        {
-            var a = Encoding.UTF8.GetString(state.State).FromJson<MultiPlayerMessage<object>>();
-            if (opCodes.Exists(model => model.Uuid == a.uuid))
-                OnReceiveOpCodeMessage?.Invoke(opCode, key, a.uuid, state);
+
+        #endregion
+        #region OpCode
+
+            private void InitOpCodeUuid(OpCodeCompModel opCodeComp)
+            {
+                if (opCodeComp.UuidGeneratorType == OpCodeUuidGeneratorType.ServerConfig)
+                {
+                    opCodeComp.Uuid = opCodeUuidServerConfig[opCodeComp.Key];
+                }
+                else if (opCodeComp.UuidGeneratorType == OpCodeUuidGeneratorType.MultiPlayerNetwork)
+                {
+                    opCodeComp.Uuid = userName;
+                }
+            }
+            
+            public OpCodeCompModel GetOpCode(long opCode = 0, string key = null, string uuid = null)
+            {
+                if (opCode != 0)
+                    return opCodes.Find(model => model.OpCode == opCode);
+                if (key != null)
+                    return opCodes.Find(model => model.Key == key);
+                if (uuid != null)
+                    return opCodes.Find(model => model.Uuid == uuid);
+                return null;
         }
 
-        #if UNITY_EDITOR
-
+        #endregion
+        #region Editor
+#if UNITY_EDITOR
+        
         [ContextMenu("Create new static UUID")]
-        void UpdateUUID()
+        public void UpdateUuid()
         {
             foreach (OpCodeCompModel opCode in opCodes)
             {
@@ -127,36 +188,16 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Components
                     opCode.Uuid = "";
                     uuidTemp += GetInstanceID() + opCode.Key + DateTime.Now.ToUniversalTime();
                     // opCode.Uuid = GeneralUtility.GenerateMD5(uuidTemp);
-                    opCode.Uuid = UnityEngine.Random.Range(1000,9999999).ToString();
+                    opCode.Uuid = Random.Range(1000,9999999).ToString();
                 }
             }
             EditorUtility.SetDirty(this);
         }
 
-        #endif
+#endif
+        
 
-        private void initOpCodeUuid(OpCodeCompModel opCodeComp)
-        {
-            if (opCodeComp.UuidGeneratorType == OpCodeUuidGeneratorType.ServerConfig)
-            {
-                opCodeComp.Uuid = opCodeUuidServerConfig[opCodeComp.Key];
-            }
-            else if (opCodeComp.UuidGeneratorType == OpCodeUuidGeneratorType.MultiPlayerNetwork)
-            {
-                opCodeComp.Uuid = userName;
-            }
-        }
-
-        public OpCodeCompModel getOpCode(long opCode = 0, string key = null, string uuid = null)
-        {
-            if (opCode != 0)
-                return opCodes.Find(model => model.OpCode == opCode);
-            if (key != null)
-                return opCodes.Find(model => model.Key == key);
-            if (uuid != null)
-                return opCodes.Find(model => model.Uuid == uuid);
-            return null;
-        }
-
+        #endregion
+        
     }
 }

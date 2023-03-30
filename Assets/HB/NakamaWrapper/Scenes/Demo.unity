@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,6 +123,77 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &13170602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 13170605}
+  - component: {fileID: 13170606}
+  - component: {fileID: 13170607}
+  m_Layer: 0
+  m_Name: ChController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &13170605
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13170602}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &13170606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13170602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d195d5b1640c3f545a9a2a2f5ac14686, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  matchId: 
+  matchTagName: 
+  sessionTagName: 
+--- !u!114 &13170607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13170602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b34e8e7019e47b44e9c7b2e67b993366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  matchId: 
+  matchTagName: 
+  sessionTagName: 
+  opCodes:
+  - Key: ch
+    OpCode: 0
+    Uuid: 9958877
+    UuidGeneratorType: 0
+  isInitNetworkEvents: 0
+  userName: 
+  _matchConnectionController: {fileID: 0}
 --- !u!1 &293180390
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,7 +210,6 @@ GameObject:
   - component: {fileID: 293180397}
   - component: {fileID: 293180398}
   - component: {fileID: 293180399}
-  - component: {fileID: 293180400}
   m_Layer: 0
   m_Name: ChatConnection
   m_TagString: Untagged
@@ -174,6 +244,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f475c21979de13349a89f5f9150b6ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clintTag: aws
+  sessionTag: google
+  matchTag: chat
   serverClientChatConfigs: {fileID: 11400000, guid: 2e33833001c37ff4a861356ae797ae50, type: 2}
 --- !u!114 &293180394
 MonoBehaviour:
@@ -199,7 +272,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 065c15fe3e3a4591b2376680cd67f967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _matchId: 
+  isConnected: 0
+  matchId: 
+  matchMessageController: {fileID: 0}
 --- !u!114 &293180396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5f3fac971c41588df388c1ef5d4f0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localPlayerAdd: 0
 --- !u!114 &293180398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,25 +324,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6504c5c23e4c49fb838d8bec0e94f777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &293180400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 293180390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21c1fd26d7314874be5521ef8d3469bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _matchConnectionController: {fileID: 293180395}
-  _matchMessageController: {fileID: 293180397}
-  opCodes:
-  - Key: move2
-    OpCode: 200
-    Uuid: 
-    UuidGeneratorType: 2
 --- !u!1 &673664137
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,7 +626,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1995896348
 Transform:
   m_ObjectHideFlags: 0
@@ -600,4 +657,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   matchMessageController: {fileID: 293180397}
-  myAvatar: {fileID: 8016542329276982990, guid: 0295fc0a41ac23644bdc838aa8708cdd, type: 3}
+  avatar: {fileID: 8016542329276982990, guid: 0295fc0a41ac23644bdc838aa8708cdd, type: 3}

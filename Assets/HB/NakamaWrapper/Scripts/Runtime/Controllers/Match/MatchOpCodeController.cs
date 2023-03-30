@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Text;
 using Cysharp.Threading.Tasks;
+using HB.NakamaWrapper.Scripts.Runtime.Models;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 using Nakama;
 using Nakama.TinyJson;
 using UnityEngine;
@@ -11,21 +12,22 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Controllers.Match
 {
     public class MatchOpCodeController
     {
-        public Dictionary<long, UnityEvent<long, string, IMatchState>> opCodeCallbacks = new Dictionary<long, UnityEvent<long, string, IMatchState>>();
-        public Dictionary<string, long> opCodeByKey = new Dictionary<string, long>();
-        public Dictionary<long, string> opCodeKeyByValue = new Dictionary<long, string>();
+        public  Dictionary<long, UnityEvent<long, string, IMatchState>> opCodeCallbacks = new Dictionary<long, UnityEvent<long, string, IMatchState>>();
+        private Dictionary<string, long> opCodeByKey = new Dictionary<string, long>();
+        public  Dictionary<long, string> opCodeKeyByValue = new Dictionary<long, string>();
+        public  MatchMessageController matchMessageController;
+        #region Init
 
-        public MatchMessageController _matchMessageController;
+            public void Init(MatchMessageController matchMessageController)
+            {
+                this.matchMessageController = matchMessageController; 
+                AddOpCodeCallback(500, ONReciveRegisterOpCodeResult);
+            }
 
-        void init(MatchMessageController matchMessageController)
-        {
-            _matchMessageController = matchMessageController;
-            addOpCodeCallback(500, onReciveRegisterOpCodeResult);
-        }
-        
+        #endregion
         #region OpCodes Logics
 
-        private void addOpCodeCallback(long opCode, UnityAction<long, string, IMatchState> callback)
+        private void AddOpCodeCallback(long opCode, UnityAction<long, string, IMatchState> callback)
         {
             Debug.unityLogger.Log($"addOpCodeCallback opCode: {opCode}");
             if (opCodeCallbacks.ContainsKey(opCode))
@@ -38,7 +40,7 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Controllers.Match
             opCodeCallbacks.TryAdd(opCode, newEvent);
         }
 
-        private void removeOpCodeCallback(long opCode, UnityAction<long, string, IMatchState> callback)
+        private void RemoveOpCodeCallback(long opCode, UnityAction<long, string, IMatchState> callback)
         {
             Debug.unityLogger.Log($"removeOpCodeCallback opCode: {opCode}");
             if (opCodeCallbacks.ContainsKey(opCode))
@@ -47,66 +49,46 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Controllers.Match
             }
         }
 
-        private void onReciveRegisterOpCodeResult(long opCode, string key, IMatchState state)
+        private void ONReciveRegisterOpCodeResult(long opCode, string key, IMatchState state)
         {
             Debug.unityLogger.Log($"onReciveRegisterOpCodeResult opCode: {opCode} - data: {Encoding.UTF8.GetString(state.State)}");
             OpCodeRegister opCodeRegister = Encoding.UTF8.GetString(state.State).FromJson<OpCodeRegister>();
             if (!opCodeByKey.ContainsKey(opCodeRegister.key))
                 opCodeByKey.TryAdd(opCodeRegister.key, opCodeRegister.opCode);
-
             if (!opCodeKeyByValue.ContainsKey(opCodeRegister.opCode))
                 opCodeKeyByValue.TryAdd(opCodeRegister.opCode, opCodeRegister.key);
-
             Debug.unityLogger.Log("onReciveRegisterOpCodeResult Init.");
         }
 
         #endregion
-        
+        #region Opcode
+
         public async UniTask<long> RegisterOpCode(string key, UnityAction<long, string, IMatchState> callback)
         {
             Debug.unityLogger.Log("RegisterOpCode start");
             if (opCodeByKey.ContainsKey(key))
             {
                 Debug.unityLogger.Log($"RegisterOpCode ContainsKey(key) key: {key}");
-                addOpCodeCallback(opCodeByKey[key], callback);
+                AddOpCodeCallback(opCodeByKey[key], callback);
                 return opCodeByKey[key];
             }
 
             Debug.unityLogger.Log($"RegisterOpCode not ContainsKey(key) key: {key}");
-            await _matchMessageController.SendMatchState(500, new OpCodeRegister(key, 0).ToJson());
+            await matchMessageController.SendMatchState(500, new OpCodeRegister(key, 0).ToJson());
             Debug.unityLogger.Log($"RegisterOpCode SendGameState");
             await UniTask.WaitUntil(() => opCodeByKey.ContainsKey(key));
             Debug.unityLogger.Log($"RegisterOpCode UniTask.WaitUntil(() => opCodeByKey.ContainsKey(key)");
-            addOpCodeCallback(opCodeByKey[key], callback);
+            AddOpCodeCallback(opCodeByKey[key], callback);
             return opCodeByKey[key];
         }
 
         public void UnRegisterOpCode(long opCode, UnityAction<long, string, IMatchState> callback)
         {
             Debug.unityLogger.Log($"UnRegisterOpCode opCode: {opCode}");
-            removeOpCodeCallback(opCode, callback);
+            RemoveOpCodeCallback(opCode, callback);
         }
-        
-        
-    }
-    
 
-    
-    public class OpCodeRegister
-    {
-        public string key;
-        public long opCode;
-
-        public OpCodeRegister(string key, long opCode)
-        {
-            this.key = key;
-            this.opCode = opCode;
-        }
+        #endregion
     }
     
-    public class OpCodeServerModel
-    {
-        [DataMember(Name = "opCode")] public long OpCode;
-        [DataMember(Name = "key")] public string Key;
-    }
 }

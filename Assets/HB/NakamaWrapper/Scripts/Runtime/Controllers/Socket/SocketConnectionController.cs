@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using HB.NakamaWrapper.Scripts.Runtime.Core;
 using HB.NakamaWrapper.Scripts.Runtime.Models;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 using UnityEngine;
 
 namespace HB.NakamaWrapper.Scripts.Runtime.Controllers.Socket
@@ -9,6 +10,7 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Controllers.Socket
     public class SocketConnectionController : MonoBehaviour
     {
         private I8Socket _i8Socket;
+        public Action<I8Socket> OnCreateSocket;
         public void Init(I8Socket socket)
         {
             _i8Socket = socket;

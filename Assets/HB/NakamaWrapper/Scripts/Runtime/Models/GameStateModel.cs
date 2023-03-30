@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 using Newtonsoft.Json;
 
 namespace HB.NakamaWrapper.Scripts.Runtime.Models

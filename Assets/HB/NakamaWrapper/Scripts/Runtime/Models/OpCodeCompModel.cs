@@ -1,4 +1,5 @@
 using System;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 
 namespace HB.NakamaWrapper.Scripts.Runtime.Models
 {

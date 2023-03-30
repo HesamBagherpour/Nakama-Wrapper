@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using HB.NakamaWrapper.Scripts.Runtime.Factory;
 using HB.NakamaWrapper.Scripts.Runtime.Models;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 using Nakama;
 
 namespace HB.NakamaWrapper.Scripts.Runtime.Core
