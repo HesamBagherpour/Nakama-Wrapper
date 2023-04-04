@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
-using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
+using HB.NakamaWrapper.Scripts.Runtime.Modules;
 
-namespace HB.NakamaWrapper.Scripts.Runtime.Models
+namespace Infinite8.NakamaWrapper.Scripts.Runtime.Models
 {
     public class MetadataModel
     {

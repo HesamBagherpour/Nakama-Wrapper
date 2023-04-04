@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Linq;
 using HB.NakamaWrapper.Scripts.Runtime.Core;
-using HB.NakamaWrapper.Scripts.Runtime.Models;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Core;
 using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 using Nakama;
 using UnityEngine;

@@ -5,7 +5,6 @@ using HB.NakamaWrapper.Scripts.Runtime.Controllers.Session;
 using HB.NakamaWrapper.Scripts.Runtime.Controllers.Socket;
 using HB.NakamaWrapper.Scripts.Runtime.Factory;
 using HB.NakamaWrapper.Scripts.Runtime.Manager;
-using HB.NakamaWrapper.Scripts.Runtime.Models;
 using HB.NakamaWrapper.Scripts.Runtime.NakamaConfig.ClientConfig;
 using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 using UnityEngine;
@@ -47,7 +46,8 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Modules.Chat
             if (TryGetComponent<SessionConnectionController>(out SessionConnectionController sessionConnectionController))
             {
                 sessionConnectionController.Init(client,session,true,2,false);
-                NakamaManager.Instance.OnSessionConnected?.Invoke(sessionTagName);
+                session.setSessionConnectionController(sessionConnectionController);
+                //NakamaManager.Instance.OnSessionConnected?.Invoke(sessionTagName);
             }
             if (TryGetComponent<MatchConnectionController>(out MatchConnectionController matchConnectionController))
             {
@@ -73,12 +73,12 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Modules.Chat
             //     };
             //     socketPingPongConnection.StartPingPong();
             // }
-            var (_, match) = await matchFactory.CreateMatch(matchTag, client, session, rpcConfig);
+            
+            var (_, match) = await chatSocket.MatchFactory.CreateMatch(matchTag, client, session, rpcConfig);
             if (TryGetComponent<MatchMessageController>(out MatchMessageController _matchMessageController))
             {
-                MatchOpCodeController matchOpCodeController = new MatchOpCodeController();
-                matchOpCodeController.Init(_matchMessageController);
-                _matchMessageController.Init(chatSocket,matchOpCodeController,match.data.matchId);
+              
+                _matchMessageController.Init(chatSocket,match.data.matchId);
                 this._matchMessageController = _matchMessageController;
             }
             await matchConnectionController.ConnectMatch(match.data.matchId,this._matchMessageController);

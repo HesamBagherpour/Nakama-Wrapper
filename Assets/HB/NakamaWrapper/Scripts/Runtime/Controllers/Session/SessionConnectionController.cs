@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using HB.NakamaWrapper.Scripts.Runtime.Core;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Core;
 using Nakama;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Controllers.Session
         private bool _isFirstTime; // Duration in seconds
         private bool _handelRefreshSession;
 
+
+        
         public void Init(I8Client client, I8Session session, bool sessionConnectionStart, int durationInSeconds = 2,
             bool handelRefreshSession = false)
         {

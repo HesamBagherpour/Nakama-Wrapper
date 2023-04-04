@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using HB.NakamaWrapper.Scripts.Runtime.Models;
+using HB.NakamaWrapper.Scripts.Runtime.Factory;
 using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 using Nakama;
 
@@ -11,6 +11,7 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Core
         public I8Client client;
         public string tag;
         public SocketConfig SocketConfig;
+        public MatchFactory MatchFactory = new MatchFactory();
         public I8Socket(string tag,I8Client client ,SocketConfig socketConfig)
         {
             this.tag = tag;

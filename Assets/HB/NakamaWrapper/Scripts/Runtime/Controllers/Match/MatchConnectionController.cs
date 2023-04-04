@@ -1,8 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using HB.NakamaWrapper.Scripts.Runtime.Core;
-using HB.NakamaWrapper.Scripts.Runtime.Manager;
-using HB.NakamaWrapper.Scripts.Runtime.Models;
+using Infinite8.NakamaWrapper.Scripts.Runtime.Core;
 using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 using Nakama;
 using UnityEngine;
@@ -34,7 +33,7 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Controllers.Match
                 isConnected = true;
                 string matchTag = _matchConfig.GETMatchName();
                 this.matchMessageController = matchMessageController;
-                NakamaManager.Instance.OnMatchConnected?.Invoke(matchTag,this);
+               //NakamaManager.Instance.OnMatchConnected?.Invoke(matchTag,this);
                 OnMatchConnect?.Invoke(this.matchId,_matchTag);
             }
 

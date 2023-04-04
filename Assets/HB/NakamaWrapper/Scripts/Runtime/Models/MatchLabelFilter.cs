@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace HB.NakamaWrapper.Scripts.Runtime.Models
+namespace Infinite8.NakamaWrapper.Scripts.Runtime.Models
 {
     public class MatchLabelFilter
     {

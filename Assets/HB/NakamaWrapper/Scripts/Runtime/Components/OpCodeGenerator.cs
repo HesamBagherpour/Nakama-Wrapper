@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using Cysharp.Threading.Tasks;
 using HB.NakamaWrapper.Scripts.Runtime.Controllers.Match;
-using HB.NakamaWrapper.Scripts.Runtime.Manager;
-using HB.NakamaWrapper.Scripts.Runtime.Models;
 using Infinite8.NakamaWrapper.Scripts.Runtime.Models;
 using Nakama;
 using Nakama.TinyJson;
@@ -39,23 +37,20 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Components
         
         private void Start()
         {
-            NakamaManager.Instance.OnSessionConnected += delegate(string sessionName)
-            {
-                Debug.Log("static session Name : " + sessionName);
-                Debug.Log("current session Name : " + sessionName);
-            };
-            
-            
-            NakamaManager.Instance.OnMatchConnected += delegate(string matchName,MatchConnectionController matchConnectionController)
-            {
-                Debug.Log("static match Name : " + matchName);
-                Debug.Log(" current match Name : " + matchName);
-                
-                
-                this._matchConnectionController = matchConnectionController;
-                Init(_matchConnectionController,_matchConnectionController.matchMessageController.MatchOpCodeController);
-                // 
-            };
+            // NakamaManager.Instance.OnSessionConnected += delegate(string sessionName)
+            // {
+            //     Debug.Log("static session Name : " + sessionName);
+            //     Debug.Log("current session Name : " + sessionName);
+            // };
+            //
+            //
+            // NakamaManager.Instance.OnMatchConnected += delegate(string matchName,MatchConnectionController matchConnectionController)
+            // {
+            //     Debug.Log("static match Name : " + matchName);
+            //     Debug.Log(" current match Name : " + matchName);
+            //     this._matchConnectionController = matchConnectionController;
+            //
+            // };
         }
 
 

@@ -1,4 +1,6 @@
-namespace HB.NakamaWrapper.Scripts.Runtime.Core
+using HB.NakamaWrapper.Scripts.Runtime.Core;
+
+namespace Infinite8.NakamaWrapper.Scripts.Runtime.Core
 {
     public class I8Match
     {

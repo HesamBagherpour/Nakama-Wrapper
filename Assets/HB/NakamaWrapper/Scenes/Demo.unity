@@ -180,20 +180,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 13170602}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b34e8e7019e47b44e9c7b2e67b993366, type: 3}
+  m_Script: {fileID: 11500000, guid: 21c1fd26d7314874be5521ef8d3469bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   matchId: 
   matchTagName: 
   sessionTagName: 
-  opCodes:
-  - Key: ch
-    OpCode: 0
-    Uuid: 9958877
-    UuidGeneratorType: 0
+  opCodes: []
   isInitNetworkEvents: 0
   userName: 
-  _matchConnectionController: {fileID: 0}
+  _matchConnectionController: {fileID: 293180395}
 --- !u!1 &293180390
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,7 +243,7 @@ MonoBehaviour:
   clintTag: aws
   sessionTag: google
   matchTag: chat
-  serverClientChatConfigs: {fileID: 11400000, guid: 2e33833001c37ff4a861356ae797ae50, type: 2}
+  serverClientChatConfigs: {fileID: 0}
 --- !u!114 &293180394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,7 +295,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5f3fac971c41588df388c1ef5d4f0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localPlayerAdd: 0
 --- !u!114 &293180398
 MonoBehaviour:
   m_ObjectHideFlags: 0

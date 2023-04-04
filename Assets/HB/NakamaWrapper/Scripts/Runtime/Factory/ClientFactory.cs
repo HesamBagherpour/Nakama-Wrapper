@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using HB.NakamaWrapper.Scripts.Runtime.Core;
 using HB.NakamaWrapper.Scripts.Runtime.NakamaConfig.ClientConfig;
-using UnityEngine;
 
 namespace HB.NakamaWrapper.Scripts.Runtime.Factory
 {
     public class ClientFactory 
     {
-        private List<I8Client> _clients;
+        private List<I8Client> _clients = new List<I8Client>();
         public Action<I8Client> OnCreateClint;
         public Dictionary<string, Action<I8Client>> ClientFactoryCallBack = new Dictionary<string, Action<I8Client>>();
 
@@ -20,7 +19,7 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Factory
             _clients = new List<I8Client>();
             var client = _clients.Find(x => x.tag == tag);
             if (client != null)
-                return new Tuple<bool, I8Client>(false,null);
+                return new Tuple<bool, I8Client>(true,client);
             
             client = new I8Client(tag, config);
             _clients.Add(await client.Init());
@@ -45,15 +44,14 @@ namespace HB.NakamaWrapper.Scripts.Runtime.Factory
         //get clint as Dictionary callBack 
         public async UniTask<I8Client> GetClintAsync(string tag)
         {
+
             if (_clients.Exists(x => x.tag == tag))
             {
-                Debug.Log("111111111111111111111111111111");
                 return _clients.Find(x => x.tag == tag);
             }
             else
             {
-                Debug.Log("2222222222222222222222");
-               await UniTask.WaitUntil(() => latestTagCreated == tag );
+                await UniTask.WaitUntil(() => latestTagCreated == tag );
                return _clients.Find(x => x.tag == tag);
             }
         }

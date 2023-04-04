@@ -1,4 +1,4 @@
-namespace Infinite8.NakamaWrapper.Scripts.Runtime.Models
+namespace HB.NakamaWrapper.Scripts.Runtime.Modules
 {
     public enum ClientState
     {

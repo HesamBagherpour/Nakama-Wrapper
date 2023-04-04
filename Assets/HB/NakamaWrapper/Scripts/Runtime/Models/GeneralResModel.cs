@@ -1,6 +1,9 @@
 ﻿using System;
+using UnityEngine;
+using System.Text.Json;
+using Palmmedia.ReportGenerator.Core.Common;
 
-namespace HB.NakamaWrapper.Scripts.Runtime.Models
+namespace Infinite8.NakamaWrapper.Scripts.Runtime.Models
 {
     [Serializable]
     public class GeneralResModel<T>

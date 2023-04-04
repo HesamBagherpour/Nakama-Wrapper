@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-// ReSharper disable once CheckNamespace
 namespace Infinite8.NakamaWrapper.Scripts.Runtime.Models
 {
     [Serializable]
